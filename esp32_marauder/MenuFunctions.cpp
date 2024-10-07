@@ -65,11 +65,11 @@ MenuFunctions::MenuFunctions()
   
     if(touchX>WIDTH_1 || touchY > HEIGHT_1)
     {
-      Serial.println("Y or y outside of expected parameters..");
-      Serial.print("y:");
-      Serial.print(touchX);
-      Serial.print(" x:");
-      Serial.print(touchY);
+      //Serial.println("Y or y outside of expected parameters..");
+      //Serial.print("y:");
+      //Serial.print(touchX);
+      //Serial.print(" x:");
+      //Serial.print(touchY);
     }
     else
     {
@@ -108,7 +108,7 @@ MenuFunctions::MenuFunctions()
   
   
   void MenuFunctions::deinitLVGL() {
-    Serial.println(F("Deinit LVGL"));
+    //Serial.println(F("Deinit LVGL"));
     //lv_deinit();
   }
   
@@ -177,14 +177,14 @@ MenuFunctions::MenuFunctions()
       if (btn_text != text09) {
       }
       else {
-        Serial.println("Exiting...");
+        //Serial.println("Exiting...");
         lv_obj_del_async(lv_obj_get_parent(lv_obj_get_parent(btn)));
   
         for (int i = 0; i < stations->size(); i++) {
           if (stations->get(i).selected) {
             wifi_scan_obj.getMAC(addr, stations->get(i).mac, 0);
-            Serial.print("Selected: ");
-            Serial.println(addr);
+            //Serial.print("Selected: ");
+            //Serial.println(addr);
           }
         }
   
@@ -200,8 +200,8 @@ MenuFunctions::MenuFunctions()
         for (int i = 0; i < stations->size(); i++) {
           wifi_scan_obj.getMAC(addr, stations->get(i).mac, 0); 
           if (strcmp(addr, btn_text.c_str()) == 0) {
-            Serial.print("Adding Station: ");
-            Serial.println(addr);
+            //Serial.print("Adding Station: ");
+            //Serial.println(addr);
             Station sta = stations->get(i);
             sta.selected = true;
             stations->set(i, sta);
@@ -212,8 +212,8 @@ MenuFunctions::MenuFunctions()
         for (int i = 0; i < stations->size(); i++) {
           wifi_scan_obj.getMAC(addr, stations->get(i).mac, 0); 
           if (strcmp(addr, btn_text.c_str()) == 0) {
-            Serial.print("Removing Station: ");
-            Serial.println(addr);
+            //Serial.print("Removing Station: ");
+            //Serial.println(addr);
             Station sta = stations->get(i);
             sta.selected = false;
             stations->set(i, sta);
@@ -263,12 +263,12 @@ MenuFunctions::MenuFunctions()
       if (btn_text != text09) {
       }
       else {
-        Serial.println("Exiting...");
+        //Serial.println("Exiting...");
         lv_obj_del_async(lv_obj_get_parent(lv_obj_get_parent(btn)));
   
         for (int i = 1; i < evil_portal_obj.html_files->size(); i++) {
           if (i == evil_portal_obj.selected_html_index) {
-            Serial.println("Selected: " + (String)evil_portal_obj.html_files->get(i));
+            //Serial.println("Selected: " + (String)evil_portal_obj.html_files->get(i));
           }
         }
   
@@ -283,7 +283,7 @@ MenuFunctions::MenuFunctions()
       if (lv_btn_get_state(btn) == LV_BTN_STATE_CHECKED_RELEASED) {
         for (int i = 1; i < evil_portal_obj.html_files->size(); i++) {
           if (evil_portal_obj.html_files->get(i) == btn_text) {
-            Serial.println("Setting HTML: " + (String)evil_portal_obj.html_files->get(i));
+            //Serial.println("Setting HTML: " + (String)evil_portal_obj.html_files->get(i));
             evil_portal_obj.selected_html_index = i;
             evil_portal_obj.target_html_name = (String)evil_portal_obj.html_files->get(i);
           }
@@ -345,12 +345,12 @@ MenuFunctions::MenuFunctions()
       if (btn_text != text09) {
       }
       else {
-        Serial.println("Exiting...");
+        //Serial.println("Exiting...");
         lv_obj_del_async(lv_obj_get_parent(lv_obj_get_parent(btn)));
   
         for (int i = 0; i < access_points->size(); i++) {
           if (access_points->get(i).selected) {
-            Serial.println("Selected: " + (String)access_points->get(i).essid);
+            //Serial.println("Selected: " + (String)access_points->get(i).essid);
           }
         }
   
@@ -365,7 +365,7 @@ MenuFunctions::MenuFunctions()
       if (lv_btn_get_state(btn) == LV_BTN_STATE_CHECKED_RELEASED) {
         for (int i = 0; i < access_points->size(); i++) {
           if (access_points->get(i).essid == btn_text) {
-            Serial.println("Adding AP: " + (String)access_points->get(i).essid);
+            //Serial.println("Adding AP: " + (String)access_points->get(i).essid);
             AccessPoint ap = access_points->get(i);
             ap.selected = true;
             access_points->set(i, ap);
@@ -375,7 +375,7 @@ MenuFunctions::MenuFunctions()
       else {
         for (int i = 0; i < access_points->size(); i++) {
           if (access_points->get(i).essid == btn_text) {
-            Serial.println("Removing AP: " + (String)access_points->get(i).essid);
+            //Serial.println("Removing AP: " + (String)access_points->get(i).essid);
             AccessPoint ap = access_points->get(i);
             ap.selected = false;
             access_points->set(i, ap);
@@ -442,7 +442,7 @@ MenuFunctions::MenuFunctions()
   
       // Get text from SSID text box
       String ta2_text = lv_textarea_get_text(ta2);
-      Serial.println(ta2_text);
+      //Serial.println(ta2_text);
   
       // Add text box text to list of SSIDs
       wifi_scan_obj.addSSID(ta2_text);
@@ -1585,7 +1585,7 @@ void MenuFunctions::RunSetup()
             if (c_btn.justPressed()) {
               if (evil_portal_obj.html_files->get(evil_portal_obj.selected_html_index) != "Back") {
                 evil_portal_obj.target_html_name = evil_portal_obj.html_files->get(evil_portal_obj.selected_html_index);
-                Serial.println("Set Evil Portal HTML as " + evil_portal_obj.target_html_name);
+                //Serial.println("Set Evil Portal HTML as " + evil_portal_obj.target_html_name);
                 evil_portal_obj.using_serial_html = false;
               }
               this->changeMenu(htmlMenu.parentMenu);
@@ -1970,7 +1970,7 @@ void MenuFunctions::RunSetup()
                   if (c_btn.justPressed()) {
                     if (sd_obj.sd_files->get(sd_file_index) != "Back") {
                       if (sd_obj.removeFile("/" + sd_obj.sd_files->get(sd_file_index)))
-                        Serial.println("Successfully Removed File: /" + sd_obj.sd_files->get(sd_file_index));
+                        //Serial.println("Successfully Removed File: /" + sd_obj.sd_files->get(sd_file_index));
                         display_obj.tft.setTextWrap(false);
                         display_obj.tft.setCursor(0, SCREEN_HEIGHT / 3);
                         display_obj.tft.setTextColor(TFT_CYAN, TFT_BLACK);
@@ -2302,11 +2302,11 @@ void MenuFunctions::showMenuList(Menu * menu, int layer)
   {
     // Depending on layer, indent
     for (uint8_t x = 0; x < layer * 4; x++)
-      Serial.print(" ");
-    Serial.print("Node: ");
-    Serial.println(menu->list->get(i).name);
+      //Serial.print(" ");
+    //Serial.print("Node: ");
+    //Serial.println(menu->list->get(i).name);
   }
-  Serial.println();
+  //Serial.println();
 }
 
 

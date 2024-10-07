@@ -21,7 +21,7 @@ void Buffer::createFile(String name, bool is_pcap){
     } while(fs->exists(fileName));
   }
 
-  Serial.println(fileName);
+  //Serial.println(fileName);
   
   file = fs->open(fileName, FILE_WRITE);
   file.close();
@@ -160,7 +160,7 @@ void Buffer::write(const uint8_t* buf, uint32_t len){
 void Buffer::saveFs(){
   file = fs->open(fileName, FILE_APPEND);
   if (!file) {
-    Serial.println(text02+fileName+"'");
+    //Serial.println(text02+fileName+"'");
     return;
   }
 

@@ -12,7 +12,7 @@ void BatteryInterface::main(uint32_t currentTime) {
       int8_t new_level = this->getBatteryLevel();
       //this->battery_level = this->getBatteryLevel();
       if (this->battery_level != new_level) {
-        Serial.println(text00 + (String)new_level);
+        //Serial.println(text00 + (String)new_level);
         this->battery_level = new_level;
       }
     }

@@ -20,7 +20,7 @@ void GpsInterface::begin() {
     analogWrite(26, 243);
     delay(1);
 
-    Serial.println("Activated GPS");
+    //Serial.println("Activated GPS");
     delay(100);
   #endif*/
 
@@ -35,7 +35,7 @@ void GpsInterface::begin() {
   delay(3900);
 
   if (Serial2.available()) {
-    Serial.println("GPS Attached Successfully");
+    //Serial.println("GPS Attached Successfully");
     this->gps_enabled = true;
     while (Serial2.available()) {
       //Fetch the character one by one
@@ -47,7 +47,7 @@ void GpsInterface::begin() {
   }
   else {
     this->gps_enabled = false;
-    Serial.println("GPS Not Found");
+    //Serial.println("GPS Not Found");
   }
   
 
