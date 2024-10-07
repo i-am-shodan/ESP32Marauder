@@ -2690,15 +2690,15 @@ void WiFiScan::apSnifferCallbackFull(void* buf, wifi_promiscuous_pkt_type_t type
 
         //Serial.print("\nBeacon: ");
 
-        for (int i = 0; i < ap.beacon->size(); i++) {
-          char hexCar[4];
-          sprintf(hexCar, "%02X", ap.beacon->get(i));
-          //Serial.print(hexCar);
-          if ((i + 1) % 16 == 0)
-            //Serial.print("\n");
-          else
-            //Serial.print(" ");
-        }
+        // for (int i = 0; i < ap.beacon->size(); i++) {
+        //   char hexCar[4];
+        //   sprintf(hexCar, "%02X", ap.beacon->get(i));
+        //   //Serial.print(hexCar);
+        //   if ((i + 1) % 16 == 0)
+        //     //Serial.print("\n");
+        //   else
+        //     //Serial.print(" ");
+        // }
 
         ap.rssi = snifferPacket->rx_ctrl.rssi;
 
