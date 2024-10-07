@@ -30,7 +30,7 @@ void CommandLine::main(uint32_t currentTime) {
 
   this->runCommand(input);
 
-  if (input != "")
+  //if (input != "")
     //Serial.print("> ");
 }
 
@@ -116,7 +116,7 @@ bool CommandLine::hasSSIDs() {
 void CommandLine::showCounts(int selected, int unselected) {
   //Serial.print((String) selected + " selected");
   
-  if (unselected != -1) 
+  //if (unselected != -1) 
     //Serial.print(", " + (String) unselected + " unselected");
   
   //Serial.println("");
@@ -198,7 +198,7 @@ void CommandLine::runCommand(String input) {
   if(wifi_scan_obj.scanning() && wifi_scan_obj.currentScanMode == WIFI_SCAN_GPS_NMEA){
     if(input != STOPSCAN_CMD) return;    
   }
-  else
+  //else
     //Serial.println("#" + input);
 
   LinkedList<String> cmd_args = this->parseCommand(input, " ");
@@ -280,11 +280,11 @@ void CommandLine::runCommand(String input) {
 
     wifi_scan_obj.StartScan(WIFI_SCAN_OFF);
 
-    if(old_scan_mode == WIFI_SCAN_GPS_NMEA)
+    //if(old_scan_mode == WIFI_SCAN_GPS_NMEA)
       //Serial.println("END OF NMEA STREAM");
-    else if(old_scan_mode == WIFI_SCAN_GPS_DATA)
+    //else if(old_scan_mode == WIFI_SCAN_GPS_DATA)
       //Serial.println("Stopping GPS data updates");
-    else
+    //else
       //Serial.println("Stopping WiFi tran/recv");
 
     // If we don't do this, the text and button coordinates will be off
@@ -413,17 +413,17 @@ void CommandLine::runCommand(String input) {
     #endif
   }
   // ls command
-  else if (cmd_args.get(0) == LS_CMD) {
-    #ifdef HAS_SD
-      if (cmd_args.size() > 1)
-        sd_obj.listDir(cmd_args.get(1));
-      else
-        //Serial.println("You did not provide a dir to list");
-    #else
-      //Serial.println("SD support disabled, cannot use command");
-      return;
-    #endif
-  }
+  // else if (cmd_args.get(0) == LS_CMD) {
+  //   #ifdef HAS_SD
+  //     if (cmd_args.size() > 1)
+  //       sd_obj.listDir(cmd_args.get(1));
+  //     else
+  //       //Serial.println("You did not provide a dir to list");
+  //   #else
+  //     //Serial.println("SD support disabled, cannot use command");
+  //     return;
+  //   #endif
+  // }
 
   // Channel command
   else if (cmd_args.get(0) == CH_CMD) {
@@ -1068,7 +1068,7 @@ void CommandLine::runCommand(String input) {
           //Serial.println("[" + (String)i + "][CH:" + (String)access_points->get(i).channel + "] " + access_points->get(i).essid + " " + (String)access_points->get(i).rssi + " (selected)");
           count_selected += 1;
         } 
-        else
+        //else
           //Serial.println("[" + (String)i + "][CH:" + (String)access_points->get(i).channel + "] " + access_points->get(i).essid + " " + (String)access_points->get(i).rssi);
       }
       this->showCounts(count_selected);
@@ -1080,7 +1080,7 @@ void CommandLine::runCommand(String input) {
           //Serial.println("[" + (String)i + "] " + ssids->get(i).essid + " (selected)");
           count_selected += 1;
         } 
-        else
+        //else
           //Serial.println("[" + (String)i + "] " + ssids->get(i).essid);
       }
       this->showCounts(count_selected);

@@ -2499,7 +2499,7 @@ void WiFiScan::pwnSnifferCallback(void* buf, wifi_promiscuous_pkt_type_t type)
           //display_string.concat((char)snifferPacket->payload[i + 38]);
           if (isAscii(snifferPacket->payload[i + 38]))
             essid.concat((char)snifferPacket->payload[i + 38]);
-          else
+          //else
             //Serial.println("Got non-ascii character: " + (String)(char)snifferPacket->payload[i + 38]);
         }
         //essid.concat("\": \"\"}}");
