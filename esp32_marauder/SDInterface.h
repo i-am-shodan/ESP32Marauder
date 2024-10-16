@@ -9,6 +9,9 @@
 #ifdef USE_SD_MMC_INTERFACE
   #include "SD_MMC.h"
   #define SD  SD_MMC
+#elif USE_SPIFFS_INTERFACE
+  #include <SPIFFS.h>
+  #define SD SPIFFS
 #else
   #include "SD.h"
 #endif
