@@ -7,8 +7,8 @@
 
 #include "settings.h"
 #ifdef USE_SD_MMC_INTERFACE
-  #include "SD_MMC.h"
-  #define SD  SD_MMC
+  #include "../../../src/Devices/Storage/ESP32/SDMMCFS2.h"
+  #define SD  fs::SD_MMC_2
 #elif USE_SPIFFS_INTERFACE
   #include <SPIFFS.h>
   #define SD SPIFFS

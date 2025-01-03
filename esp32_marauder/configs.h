@@ -1028,3 +1028,12 @@
   //// END MARAUDER TITLE STUFF
 
 #endif
+
+extern size_t esp32m_println(const char* msg);
+extern size_t esp32m_print(const String &s);
+extern size_t esp32m_print(const char* msg);
+extern size_t esp32m_println(const String &s);
+extern size_t esp32m_print(const char m);
+extern size_t esp32m_println(const size_t val);
+extern size_t esp32m_println();
+extern size_t esp32m_println(esp_err_t&, int);

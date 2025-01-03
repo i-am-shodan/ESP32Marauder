@@ -63,7 +63,7 @@ bool Switches::justPressed() {
 	}
 	else if (btn_state) { // Button is STILL pressed
 		// Check if button is held
-		//Serial.println("cur_hold: " + (String)this->cur_hold);
+		//esp32m_println("cur_hold: " + (String)this->cur_hold);
 		if ((millis() - this->hold_init) < this->hold_lim) {
 			this->isheld = false;
 		}

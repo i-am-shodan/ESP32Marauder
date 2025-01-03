@@ -5,7 +5,7 @@ LedInterface::LedInterface() {
 }
 
 void LedInterface::RunSetup() {
-  //Serial.println("Setting neopixel to black...");
+  //esp32m_println("Setting neopixel to black...");
 #ifndef DISABLE_STATUS_LED
   strip.setBrightness(0);
   strip.begin();

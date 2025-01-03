@@ -9,10 +9,10 @@ bool SDInterface::initSD() {
     #ifdef KIT
       pinMode(SD_DET, INPUT);
       if (digitalRead(SD_DET) == LOW) {
-        //Serial.println(F("SD Card Detect Pin Detected"));
+        esp32m_println(F("SD Card Detect Pin Detected"));
       }
       else {
-        //Serial.println(F("SD Card Detect Pin Not Detected"));
+        esp32m_println(F("SD Card Detect Pin Not Detected"));
         this->supported = false;
         return false;
       }
@@ -38,7 +38,7 @@ bool SDInterface::initSD() {
     #else
       if (!SD.begin(SD_CS)) {
     #endif
-      //Serial.println(F("Failed to mount SD Card"));
+      esp32m_println(F("Failed to mount SD Card"));
       this->supported = false;
       return false;
     }
@@ -46,13 +46,13 @@ bool SDInterface::initSD() {
       this->supported = true;
       this->cardType = SD.cardType();
       //if (cardType == CARD_MMC)
-      //  Serial.println(F("SD: MMC Mounted"));
+      //  esp32m_println(F("SD: MMC Mounted"));
       //else if(cardType == CARD_SD)
-      //    Serial.println(F("SD: SDSC Mounted"));
+      //    esp32m_println(F("SD: SDSC Mounted"));
       //else if(cardType == CARD_SDHC)
-      //    Serial.println(F("SD: SDHC Mounted"));
+      //    esp32m_println(F("SD: SDHC Mounted"));
       //else
-      //    Serial.println(F("SD: UNKNOWN Card Mounted"));
+      //    esp32m_println(F("SD: UNKNOWN Card Mounted"));
 
       this->cardSizeMB = SD.cardSize() / (1024 * 1024);
     
@@ -74,10 +74,10 @@ bool SDInterface::initSD() {
       }
 
       if (!SD.exists("/SCRIPTS")) {
-        //Serial.println("/SCRIPTS does not exist. Creating...");
+        esp32m_println("/SCRIPTS does not exist. Creating...");
 
         SD.mkdir("/SCRIPTS");
-        //Serial.println("/SCRIPTS created");
+        esp32m_println("/SCRIPTS created");
       }
 
       this->sd_files = new LinkedList<String>();
@@ -87,7 +87,7 @@ bool SDInterface::initSD() {
       return true;
   }
   #else
-    //Serial.println("SD support disabled, skipping init");
+    esp32m_println("SD support disabled, skipping init");
     return false;
   #endif
 }
@@ -146,11 +146,11 @@ void SDInterface::listDir(String str_dir){
       }
       //for (uint8_t i = 0; i < numTabs; i++)
       //{
-      //  Serial.print('\t');
+      //  esp32m_print('\t');
       //}
-      //Serial.print(entry.name());
-      //Serial.print("\t");
-      //Serial.println(entry.size());
+      esp32m_print(entry.name());
+      esp32m_print("\t");
+      esp32m_println(entry.size());
       entry.close();
     }
   }
@@ -173,7 +173,7 @@ void SDInterface::runUpdate() {
         display_obj.tft.setTextColor(TFT_RED);
         display_obj.tft.println(F(text_table2[0]));
       #endif
-      //Serial.println(F("Error, could not find \"update.bin\""));
+      esp32m_println(F("Error, could not find \"update.bin\""));
       #ifdef HAS_SCREEN
         display_obj.tft.setTextColor(TFT_WHITE);
       #endif
@@ -187,7 +187,7 @@ void SDInterface::runUpdate() {
       #ifdef HAS_SCREEN
         display_obj.tft.println(F(text_table2[1]));
       #endif
-      //Serial.println(F("Starting update over SD. Please wait..."));
+      esp32m_println(F("Starting update over SD. Please wait..."));
       this->performUpdate(updateBin, updateSize);
     }
     else {
@@ -195,7 +195,7 @@ void SDInterface::runUpdate() {
         display_obj.tft.setTextColor(TFT_RED);
         display_obj.tft.println(F(text_table2[2]));
       #endif
-      //Serial.println(F("Error, file is empty"));
+      esp32m_println(F("Error, file is empty"));
       #ifdef HAS_SCREEN
         display_obj.tft.setTextColor(TFT_WHITE);
       #endif
@@ -208,7 +208,7 @@ void SDInterface::runUpdate() {
     #ifdef HAS_SCREEN
       display_obj.tft.println(F(text_table2[3]));
     #endif
-    //Serial.println(F("rebooting..."));
+    esp32m_println(F("rebooting..."));
     //SD.remove("/update.bin");      
     delay(1000);
     ESP.restart();
@@ -218,7 +218,7 @@ void SDInterface::runUpdate() {
       display_obj.tft.setTextColor(TFT_RED);
       display_obj.tft.println(F(text_table2[4]));
     #endif
-    //Serial.println(F("Could not load update.bin from sd root"));
+    esp32m_println(F("Could not load update.bin from sd root"));
     #ifdef HAS_SCREEN
       display_obj.tft.setTextColor(TFT_WHITE);
     #endif
@@ -236,28 +236,28 @@ void SDInterface::performUpdate(Stream &updateSource, size_t updateSize) {
       #ifdef HAS_SCREEN
         display_obj.tft.println(text_table2[7] + String(written) + text_table2[10]);
       #endif
-      //Serial.println("Written : " + String(written) + " successfully");
+      esp32m_println("Written : " + String(written) + " successfully");
     }
     else {
       #ifdef HAS_SCREEN
         display_obj.tft.println(text_table2[8] + String(written) + "/" + String(updateSize) + text_table2[9]);
       #endif
-      //Serial.println("Written only : " + String(written) + "/" + String(updateSize) + ". Retry?");
+      esp32m_println("Written only : " + String(written) + "/" + String(updateSize) + ". Retry?");
     }
     if (Update.end()) {
-      //Serial.println("OTA done!");
+      esp32m_println("OTA done!");
       if (Update.isFinished()) {
         #ifdef HAS_SCREEN
           display_obj.tft.println(F(text_table2[11]));
         #endif
-        //Serial.println(F("Update successfully completed. Rebooting."));
+        esp32m_println(F("Update successfully completed. Rebooting."));
       }
       else {
         #ifdef HAS_SCREEN
           display_obj.tft.setTextColor(TFT_RED);
           display_obj.tft.println(text_table2[12]);
         #endif
-        //Serial.println("Update not finished? Something went wrong!");
+        esp32m_println("Update not finished? Something went wrong!");
         #ifdef HAS_SCREEN
           display_obj.tft.setTextColor(TFT_WHITE);
         #endif
@@ -267,7 +267,7 @@ void SDInterface::performUpdate(Stream &updateSource, size_t updateSize) {
       #ifdef HAS_SCREEN
         display_obj.tft.println(text_table2[13] + String(Update.getError()));
       #endif
-      //Serial.println("Error Occurred. Error #: " + String(Update.getError()));
+      esp32m_println("Error Occurred. Error #: " + String(Update.getError()));
     }
 
   }
@@ -276,7 +276,7 @@ void SDInterface::performUpdate(Stream &updateSource, size_t updateSize) {
     #ifdef HAS_SCREEN
       display_obj.tft.println(text_table2[14]);
     #endif
-    //Serial.println("Not enough space to begin OTA");
+    esp32m_println("Not enough space to begin OTA");
   }
 }
 

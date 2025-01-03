@@ -20,7 +20,7 @@ void GpsInterface::begin() {
     analogWrite(26, 243);
     delay(1);
 
-    //Serial.println("Activated GPS");
+    esp32m_println("Activated GPS");
     delay(100);
   #endif*/
 
@@ -35,19 +35,19 @@ void GpsInterface::begin() {
   delay(3900);
 
   if (Serial2.available()) {
-    //Serial.println("GPS Attached Successfully");
+    esp32m_println("GPS Attached Successfully");
     this->gps_enabled = true;
     while (Serial2.available()) {
       //Fetch the character one by one
       char c = Serial2.read();
-      //Serial.print(c);
+      //esp32m_print(c);
       //Pass the character to the library
       nmea.process(c);
     }
   }
   else {
     this->gps_enabled = false;
-    //Serial.println("GPS Not Found");
+    esp32m_println("GPS Not Found");
   }
   
 
@@ -655,7 +655,7 @@ void GpsInterface::main() {
   while (Serial2.available()) {
     //Fetch the character one by one
     char c = Serial2.read();
-    //Serial.print(c);
+    //esp32m_print(c);
     //Pass the character to the library
     nmea.process(c);
   }

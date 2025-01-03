@@ -38,10 +38,10 @@ void Display::RunSetup()
 
     #ifdef TFT_SHIELD
       uint16_t calData[5] = { 275, 3494, 361, 3528, 4 }; // tft.setRotation(0); // Portrait with TFT Shield
-      //Serial.println(F("Using TFT Shield"));
+      //esp32m_println(F("Using TFT Shield"));
     #else if defined(TFT_DIY)
       uint16_t calData[5] = { 339, 3470, 237, 3438, 2 }; // tft.setRotation(0); // Portrait with DIY TFT
-      //Serial.println(F("Using TFT DIY"));
+      //esp32m_println(F("Using TFT DIY"));
     #endif
     tft.setTouch(calData);
 
@@ -50,9 +50,9 @@ void Display::RunSetup()
   //tft.fillScreen(TFT_BLACK);
   clearScreen();
 
-  //Serial.println("SPI_FREQUENCY: " + (String)SPI_FREQUENCY);
-  //Serial.println("SPI_READ_FREQUENCY:" + (String)SPI_READ_FREQUENCY);
-  //Serial.println("SPI_TOUCH_FREQUENCY: " + (String)SPI_TOUCH_FREQUENCY);
+  //esp32m_println("SPI_FREQUENCY: " + (String)SPI_FREQUENCY);
+  //esp32m_println("SPI_READ_FREQUENCY:" + (String)SPI_READ_FREQUENCY);
+  //esp32m_println("SPI_TOUCH_FREQUENCY: " + (String)SPI_TOUCH_FREQUENCY);
 
   #ifdef KIT
     pinMode(KIT_LED_BUILTIN, OUTPUT);
@@ -269,7 +269,7 @@ void Display::touchToExit()
 // Function to just draw the screen black
 void Display::clearScreen()
 {
-  //Serial.println(F("clearScreen()"));
+  //esp32m_println(F("clearScreen()"));
   tft.fillScreen(TFT_BLACK);
   tft.setCursor(0, 0);
 }
@@ -338,7 +338,7 @@ void Display::showCenterText(String text, int y)
 
 void Display::initScrollValues(bool tte)
 {
-  //Serial.println(F("initScrollValues()"));
+  //esp32m_println(F("initScrollValues()"));
   yDraw = YMAX - BOT_FIXED_AREA - TEXT_HEIGHT;
 
   xPos = 0;
@@ -363,7 +363,7 @@ void Display::initScrollValues(bool tte)
 
 // Function to execute hardware scroll for TFT screen
 int Display::scroll_line(uint32_t color) {
-  //Serial.println("scroll_line()");
+  //esp32m_println("scroll_line()");
   int yTemp = yStart; // Store the old yStart, this is where we draw the next line
   // Use the record of line lengths to optimise the rectangle size we need to erase the top line
 
@@ -394,10 +394,10 @@ int Display::scroll_line(uint32_t color) {
 
 // Function to setup hardware scroll for TFT screen
 void Display::setupScrollArea(uint16_t tfa, uint16_t bfa) {
-  //Serial.println(F("setupScrollArea()"));
-  //Serial.println("   tfa: " + (String)tfa);
-  //Serial.println("   bfa: " + (String)bfa);
-  //Serial.println("yStart: " + (String)this->yStart);
+  //esp32m_println(F("setupScrollArea()"));
+  //esp32m_println("   tfa: " + (String)tfa);
+  //esp32m_println("   bfa: " + (String)bfa);
+  //esp32m_println("yStart: " + (String)this->yStart);
   #ifdef HAS_ILI9341
     tft.writecommand(ILI9341_VSCRDEF); // Vertical scroll definition
     tft.writedata(tfa >> 8);           // Top Fixed Area line count
@@ -432,7 +432,7 @@ void Display::drawJpeg(const char *filename, int xpos, int ypos) {
 
   //ESP32 always seems to return 1 for jpegFile so this null trap does not work
   //if ( !jpegFile ) {
-  //  Serial.print("ERROR: File \""); Serial.print(filename); Serial.println ("\" not found!");
+  //  esp32m_print("ERROR: File \""); esp32m_print(filename); Serial.println ("\" not found!");
   //  return;
   //}
 
@@ -450,7 +450,7 @@ void Display::drawJpeg(const char *filename, int xpos, int ypos) {
     jpegRender(xpos, ypos);
   }
   //else {
-  //  Serial.println(F("Jpeg file format not supported!"));
+  //  esp32m_println(F("Jpeg file format not supported!"));
   //}
 }
 */
@@ -472,7 +472,7 @@ void Display::drawStylus()
   boolean pressed = tft.getTouch(&x, &y);
 
   if ((x <= 10) && (y <= 10) && (pressed)) {
-    //Serial.println(F("Exit draw function"));
+    //esp32m_println(F("Exit draw function"));
     this->draw_tft = false;
     this->exit_draw = true;
     return;
@@ -517,10 +517,10 @@ void Display::drawStylus()
     xlast = x;
     ylast = y;
     AH = 0;
-    //Serial.print("x,y = ");
-    //Serial.print(x);
-    //Serial.print(",");
-    //Serial.println(y);
+    //esp32m_print("x,y = ");
+    //esp32m_print(x);
+    //esp32m_print(",");
+    //esp32m_println(y);
   } else if ( AH < 5 ) {
     AH++;
   } else if ( AH == 5 ) {
@@ -606,19 +606,19 @@ void Display::jpegRender(int xpos, int ypos) {
 //====================================================================================
 void Display::jpegInfo() {
 /*
-  Serial.println("===============");
-  Serial.println("JPEG image info");
-  Serial.println("===============");
-  Serial.print  ("Width      :"); Serial.println(JpegDec.width);
-  Serial.print  ("Height     :"); Serial.println(JpegDec.height);
-  Serial.print  ("Components :"); Serial.println(JpegDec.comps);
-  Serial.print  ("MCU / row  :"); Serial.println(JpegDec.MCUSPerRow);
-  Serial.print  ("MCU / col  :"); Serial.println(JpegDec.MCUSPerCol);
-  Serial.print  ("Scan type  :"); Serial.println(JpegDec.scanType);
-  Serial.print  ("MCU width  :"); Serial.println(JpegDec.MCUWidth);
-  Serial.print  ("MCU height :"); Serial.println(JpegDec.MCUHeight);
-  Serial.println("===============");
-  Serial.println("");
+  esp32m_println("===============");
+  esp32m_println("JPEG image info");
+  esp32m_println("===============");
+  Serial.print  ("Width      :"); esp32m_println(JpegDec.width);
+  Serial.print  ("Height     :"); esp32m_println(JpegDec.height);
+  Serial.print  ("Components :"); esp32m_println(JpegDec.comps);
+  Serial.print  ("MCU / row  :"); esp32m_println(JpegDec.MCUSPerRow);
+  Serial.print  ("MCU / col  :"); esp32m_println(JpegDec.MCUSPerCol);
+  Serial.print  ("Scan type  :"); esp32m_println(JpegDec.scanType);
+  Serial.print  ("MCU width  :"); esp32m_println(JpegDec.MCUWidth);
+  Serial.print  ("MCU height :"); esp32m_println(JpegDec.MCUHeight);
+  esp32m_println("===============");
+  esp32m_println("");
   */
 }
 
@@ -632,38 +632,38 @@ void createArray(const char *filename) {
   //  File jpgFile = SD.open( filename, FILE_READ);  // or, file handle reference for SD library
 
   if ( !jpgFile ) {
-    //Serial.print("ERROR: File \""); //Serial.print(filename); //Serial.println ("\" not found!");
+    esp32m_print("ERROR: File \""); esp32m_print(filename); Serial.println ("\" not found!");
     return;
   }
 
   uint8_t data;
   byte line_len = 0;
-  //Serial.println("");
-  //Serial.println(F("// Generated by a JPEGDecoder library example sketch:"));
-  //Serial.println(F("// https://github.com/Bodmer/JPEGDecoder"));
-  //Serial.println("");
-  //Serial.println(F("#if defined(__AVR__)"));
-  //Serial.println(F("  #include <avr/pgmspace.h>"));
-  //Serial.println(F("#endif"));
-  //Serial.println("");
-  //Serial.print  (F("const uint8_t "));
-  while (*filename != '.') //Serial.print(*filename++);
-  //Serial.println(F("[] PROGMEM = {")); // PROGMEM added for AVR processors, it is ignored by Due
+  esp32m_println("");
+  esp32m_println(F("// Generated by a JPEGDecoder library example sketch:"));
+  esp32m_println(F("// https://github.com/Bodmer/JPEGDecoder"));
+  esp32m_println("");
+  esp32m_println(F("#if defined(__AVR__)"));
+  esp32m_println(F("  #include <avr/pgmspace.h>"));
+  esp32m_println(F("#endif"));
+  esp32m_println("");
+  Serial.print  (F("const uint8_t "));
+  while (*filename != '.') esp32m_print(*filename++);
+  esp32m_println(F("[] PROGMEM = {")); // PROGMEM added for AVR processors, it is ignored by Due
 
   while ( jpgFile.available()) {
 
     data = jpgFile.read();
-    //Serial.print("0x"); if (abs(data) < 16) //Serial.print("0");
-    //Serial.print(data, HEX); //Serial.print(",");// Add value and comma
+    esp32m_print("0x"); if (abs(data) < 16) esp32m_print("0");
+    esp32m_print(data, HEX); esp32m_print(",");// Add value and comma
     line_len++;
     if ( line_len >= 32) {
       line_len = 0;
-      //Serial.println();
+      esp32m_println();
     }
 
   }
 
-  //Serial.println("};\r\n");
+  esp32m_println("};\r\n");
   jpgFile.close();
 }
 
@@ -673,31 +673,31 @@ void createArray(const char *filename) {
 
 #ifdef ESP8266
 void Display::listFiles(void) {
-  //Serial.println();
-  //Serial.println(F("SPIFFS files found:"));
+  esp32m_println();
+  esp32m_println(F("SPIFFS files found:"));
 
   fs::Dir dir = SPIFFS.openDir("/"); // Root directory
   String  line = "=====================================";
 
-  //Serial.println(line);
-  //Serial.println(F("  File name               Size"));
-  //Serial.println(line);
+  esp32m_println(line);
+  esp32m_println(F("  File name               Size"));
+  esp32m_println(line);
 
   while (dir.next()) {
     String fileName = dir.fileName();
-    //Serial.print(fileName);
+    esp32m_print(fileName);
     int spaces = 21 - fileName.length(); // Tabulate nicely
-    //while (spaces--) Serial.print(" ");
+    while (spaces--) esp32m_print(" ");
 
     fs::File f = dir.openFile("r");
     String fileSize = (String) f.size();
     spaces = 10 - fileSize.length(); // Tabulate nicely
-    //while (spaces--) Serial.print(" ");
-    //Serial.println(fileSize + " bytes");
+    while (spaces--) esp32m_print(" ");
+    esp32m_println(fileSize + " bytes");
   }
 
-  //Serial.println(line);
-  //Serial.println();
+  esp32m_println(line);
+  esp32m_println();
   delay(1000);
 }
 #endif
@@ -712,23 +712,23 @@ void Display::listFiles(void) {
 
 void Display::listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
 
-  //Serial.println();
-  //Serial.println(F("SPIFFS files found:"));
+  esp32m_println();
+  esp32m_println(F("SPIFFS files found:"));
 
-  //Serial.printf("Listing directory: %s\n", "/");
+  Serial.printf("Listing directory: %s\n", "/");
   String  line = "=====================================";
 
-  //Serial.println(line);
-  //Serial.println(F("  File name               Size"));
-  //Serial.println(line);
+  esp32m_println(line);
+  esp32m_println(F("  File name               Size"));
+  esp32m_println(line);
 
   fs::File root = fs.open(dirname);
   if (!root) {
-    //Serial.println(F("Failed to open directory"));
+    esp32m_println(F("Failed to open directory"));
     return;
   }
   if (!root.isDirectory()) {
-    //Serial.println(F("Not a directory"));
+    esp32m_println(F("Not a directory"));
     return;
   }
 
@@ -736,28 +736,28 @@ void Display::listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
   while (file) {
 
     if (file.isDirectory()) {
-      //Serial.print("DIR : ");
+      esp32m_print("DIR : ");
       String fileName = file.name();
-      //Serial.print(fileName);
+      esp32m_print(fileName);
       if (levels) {
         listDir(fs, file.name(), levels - 1);
       }
     } else {
       String fileName = file.name();
-      //Serial.print("  " + fileName);
+      esp32m_print("  " + fileName);
       int spaces = 20 - fileName.length(); // Tabulate nicely
-      //while (spaces--) Serial.print(" ");
+      while (spaces--) esp32m_print(" ");
       String fileSize = (String) file.size();
       spaces = 10 - fileSize.length(); // Tabulate nicely
-      //while (spaces--) Serial.print(" ");
-      //Serial.println(fileSize + " bytes");
+      while (spaces--) esp32m_print(" ");
+      esp32m_println(fileSize + " bytes");
     }
 
     file = root.openNextFile();
   }
 
-  //Serial.println(line);
-  //Serial.println();
+  esp32m_println(line);
+  esp32m_println();
   delay(1000);
 }
 #endif

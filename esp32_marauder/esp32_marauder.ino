@@ -182,7 +182,7 @@ void setup()
 
   Serial.begin(115200);
 
-  Serial.println("ESP-IDF version is: " + String(esp_get_idf_version()));
+  esp32m_println("ESP-IDF version is: " + String(esp_get_idf_version()));
 
   #ifdef HAS_SCREEN
     display_obj.RunSetup();
@@ -221,7 +221,7 @@ void setup()
 
         backlightOff();
 
-        Serial.println("Headless Mode enabled");
+        esp32m_println("Headless Mode enabled");
       }
     #endif
 
@@ -254,7 +254,7 @@ void setup()
         display_obj.tft.println(F(text_table0[3]));
       #endif
     } else {
-      Serial.println(F("SD Card NOT Supported"));
+      esp32m_println(F("SD Card NOT Supported"));
       #ifdef HAS_SCREEN
         display_obj.tft.setTextColor(TFT_RED, TFT_BLACK);
         display_obj.tft.println(F(text_table0[4]));
@@ -320,7 +320,7 @@ void setup()
     menu_function_obj.RunSetup();
   #endif
   
-  Serial.println(F("CLI Ready"));
+  esp32m_println(F("CLI Ready"));
   cli_obj.RunSetup();
 }
 
