@@ -7,46 +7,41 @@ String Settings::getSettingsString() {
 }
 
 bool Settings::begin(fs::FS fs, String filename) {
-  esp32m_println("in maurader setting");
   if (!fs.exists(filename))
   {
-    esp32m_println("not exist creating default");
+    esp32m_println("Could not find settings file");
     if (!this->createDefaultSettings(fs, filename))
     {
       return false;
     }
   }
 
-  esp32m_println("opening file setting");
   File settingsFile = fs.open(filename, FILE_READ);
   if (!settingsFile)
   {
-    esp32m_println("file bad");
+    esp32m_println("Settings file could not be opened");
     return false;
   }
-
-  esp32m_println("deserialising setting");
 
   String json_string;
   DynamicJsonDocument jsonBuffer(1024);
   DeserializationError error = deserializeJson(jsonBuffer, settingsFile);
   serializeJson(jsonBuffer, json_string);
   this->json_settings_string = json_string;
-  
-  esp32m_println("finish maurader setting");
 
   return true;
 }
 
 bool Settings::begin() {
-  if(!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
+  // This code path is used when USB Army Knife is running wihtout an SD card
+  // In this mode we don't want to ever erase the filesystem as this has the users config file on it
+  // As such if SPIFFS is broken its up to them to push a filesystem image to it
+  if(!SPIFFS.begin(false)){
     esp32m_println("Settings SPIFFS Mount Failed");
     return false;
   }
 
   File settingsFile;
-
-  //SPIFFS.remove(DEFAULT_SETTING_FILE); // NEED TO REMOVE THIS LINE
 
   if (SPIFFS.exists(DEFAULT_SETTING_FILE)) {
     settingsFile = SPIFFS.open(DEFAULT_SETTING_FILE, FILE_READ);
@@ -72,8 +67,6 @@ bool Settings::begin() {
   DynamicJsonDocument jsonBuffer(1024);
   DeserializationError error = deserializeJson(jsonBuffer, settingsFile);
   serializeJson(jsonBuffer, json_string);
-  //esp32m_println("Settings: " + (String)json_string + "\n");
-  //this->printJsonSettings(json_string);
 
   this->json_settings_string = json_string;
   
