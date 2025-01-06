@@ -241,6 +241,22 @@ bool EvilPortal::setAP(LinkedList<ssid>* ssids, LinkedList<AccessPoint>* access_
 
 }
 
+#ifdef ESP_NETIF_CAPTIVEPORTAL_URI
+#warning Looks like you can now use captive portal DHCP options
+
+static void dhcp_set_captiveportal_url(String apName, String uri) {
+    const char* captiveportal_uri = uri.c_str();
+
+    // get a handle to configure DHCP with
+    esp_netif_t* netif = esp_netif_get_handle_from_ifkey(apName.c_str());
+
+    // set the DHCP option 114
+    ESP_ERROR_CHECK_WITHOUT_ABORT(esp_netif_dhcps_stop(netif));
+    ESP_ERROR_CHECK(esp_netif_dhcps_option(netif, ESP_NETIF_OP_SET, ESP_NETIF_CAPTIVEPORTAL_URI, captiveportal_uri, strlen(captiveportal_uri)));
+    ESP_ERROR_CHECK_WITHOUT_ABORT(esp_netif_dhcps_start(netif));
+}
+#endif
+
 void EvilPortal::startAP() {
   const IPAddress AP_IP(172, 0, 0, 1);
 
