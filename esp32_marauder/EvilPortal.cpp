@@ -20,7 +20,7 @@ void EvilPortal::setup() {
     if (sd_obj.supported) {
       sd_obj.listDirToLinkedList(html_files, "/", "html");
 
-      esp32m_println("Evil Portal Found " + (String)html_files->size() + " HTML files");
+      //esp32m_println("Evil Portal Found " + (String)html_files->size() + " HTML files");
     }
   #endif
 }

@@ -87,7 +87,7 @@ bool SDInterface::initSD() {
       return true;
   }
   #else
-    esp32m_println("SD support disabled, skipping init");
+    //esp32m_println("SD support disabled, skipping init");
     return false;
   #endif
 }
